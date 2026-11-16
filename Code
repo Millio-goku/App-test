@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nous deux</title>
+<link rel="apple-touch-icon" href="icone.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nous deux">
+<meta name="theme-color" content="#f3f0fb">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f0fb; --card:#ffffff; --ink:#1d1a3a; --soft:#6b6890; --line:#e4e0f3;
+  --a:#ff6b7a; --b:#14b8a6; --accent:#5b4fe0;
+  --serif:'Fraunces',Georgia,serif; --sans:'Figtree',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;
+  padding:env(safe-area-inset-top) 0 0}
+main{max-width:520px;margin:0 auto;padding:20px 18px calc(110px + env(safe-area-inset-bottom))}
+h1{font-family:var(--serif);font-weight:800;font-size:28px;letter-spacing:-.5px}
+h2{font-family:var(--serif);font-weight:600;font-size:20px;margin:22px 0 10px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.icon-btn{background:var(--card);border:1px solid var(--line);border-radius:12px;width:42px;height:42px;font-size:18px;cursor:pointer}
+.card{background:var(--card);border-radius:22px;padding:20px;border:1px solid var(--line)}
+.tab{display:none}.tab.on{display:block}
+
+/* Compte à rebours */
+.hero{padding:26px 20px 22px}
+.big{font-family:var(--serif);font-weight:800;font-size:96px;line-height:1;letter-spacing:-3px;color:var(--accent)}
+.hero p{color:var(--soft)}
+.path{display:flex;align-items:center;gap:8px;margin:18px 0 4px}
+.dot{width:14px;height:14px;border-radius:50%;flex:none}
+.line{flex:1;border-top:3px dotted var(--line)}
+.cities{display:flex;justify-content:space-between;font-size:14px;color:var(--soft)}
+
+.clocks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.clock{padding:16px}
+.clock .t{font-family:var(--serif);font-weight:600;font-size:32px}
+.clock .n{font-size:14px;color:var(--soft)}
+.bar{height:6px;border-radius:3px;margin-bottom:10px}
+
+/* Formulaires */
+.row{display:flex;gap:8px;margin-bottom:8px}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%;min-width:0}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:#fff;border:0;border-radius:12px;padding:12px 18px;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+
+/* Tâches */
+.who{display:flex;gap:6px;margin-bottom:8px}
+.chip{font:inherit;font-size:14px;font-weight:500;border:1px solid var(--line);background:var(--card);border-radius:20px;padding:6px 12px;cursor:pointer}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.group{margin-top:16px}
+.group h3{font-size:15px;display:flex;justify-content:space-between;color:var(--soft);font-weight:700;margin-bottom:6px}
+.task{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.task:last-child{border:0}
+.check{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);background:none;flex:none;cursor:pointer;font-size:15px;color:#fff;line-height:1}
+.task.done .check{background:var(--accent);border-color:var(--accent)}
+.task.done span.tx{text-decoration:line-through;color:var(--soft)}
+.tx{flex:1}
+.tag{width:10px;height:10px;border-radius:50%;flex:none}
+.del{background:none;border:0;color:var(--soft);font-size:20px;cursor:pointer;padding:4px 8px}
+
+/* Cagnotte */
+.jar{padding:24px 20px}
+.amount{font-family:var(--serif);font-weight:800;font-size:44px;letter-spacing:-1px}
+.track{height:18px;background:var(--bg);border-radius:9px;overflow:hidden;margin:14px 0 8px;border:1px solid var(--line)}
+.fill{height:100%;background:var(--accent);border-radius:9px;transition:width .5s ease}
+.meta{display:flex;justify-content:space-between;color:var(--soft);font-size:14px}
+.entry{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.entry:last-child{border:0}
+
+/* Photos */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ph{position:relative;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line)}
+.ph img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.ph .cap{padding:8px 10px;font-size:13px}
+.ph .del{position:absolute;top:4px;right:4px;background:rgba(255,255,255,.85);border-radius:50%;width:28px;height:28px;padding:0;font-size:16px}
+.ph .ring{position:absolute;left:8px;top:8px;width:14px;height:14px;border-radius:50%;border:2px solid #fff}
+.empty{text-align:center;color:var(--soft);padding:28px 10px}
+
+/* Navigation */
+nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center}
+nav div{display:flex;width:100%;max-width:520px}
+nav button{flex:1;background:none;border:0;font:inherit;font-size:12px;font-weight:500;color:var(--soft);padding:6px 0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:12px}
+nav button span{font-size:22px}
+nav button.on{color:var(--accent);font-weight:700}
+
+/* Réglages */
+dialog{border:0;border-radius:22px;padding:22px;width:min(92vw,420px);color:var(--ink);background:var(--card)}
+dialog::backdrop{background:rgba(29,26,58,.45)}
+label{display:block;font-size:14px;font-weight:700;margin:12px 0 6px}
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <h1 id="titre">Nous deux</h1>
+    <button class="icon-btn" id="btnReglages" aria-label="Réglages">⚙️</button>
+  </div>
+
+  <!-- ACCUEIL -->
+  <section class="tab on" id="t-home">
+    <div class="card hero">
+      <p id="cdLabel">Avant de se retrouver</p>
+      <div class="big" id="cdNum">0</div>
+      <p id="cdUnit">jours</p>
+      <div class="path"><span class="dot" style="background:var(--a)"></span><span class="line"></span><span class="dot" style="background:var(--b)"></span></div>
+      <div class="cities"><span id="cityA"></span><span id="cityB"></span></div>
+    </div>
+    <div class="clocks">
+      <div class="card clock"><div class="bar" style="background:var(--a)"></div><div class="t" id="clA">--:--</div><div class="n" id="nA"></div></div>
+      <div class="card clock"><div class="bar" style="background:var(--b)"></div><div class="t" id="clB">--:--</div><div class="n" id="nB"></div></div>
+    </div>
+    <h2>Ensemble depuis</h2>
+    <div class="card"><b id="together" style="font-family:var(--serif);font-size:24px"></b></div>
+  </section>
+
+  <!-- TÂCHES -->
+  <section class="tab" id="t-tasks">
+    <h2 style="margin-top:0">Tâches et projets</h2>
+    <div class="card">
+      <div class="who" id="whoTask"></div>
+      <div class="row"><input id="taskTxt" placeholder="Nouvelle tâche" maxlength="80"></div>
+      <div class="row"><input id="taskProj" placeholder="Projet (facultatif)" maxlength="30"><button class="btn" id="addTask">Ajouter</button></div>
+    </div>
+    <div id="taskList"></div>
+  </section>
+
+  <!-- CAGNOTTE -->
+  <section class="tab" id="t-jar">
+    <h2 style="margin-top:0">Cagnotte</h2>
+    <div class="card jar">
+      <p id="goalName" style="color:var(--soft)"></p>
+      <div class="amount" id="saved">0 €</div>
+      <div class="track"><div class="fill" id="fill" style="width:0"></div></div>
+      <div class="meta"><span id="pct">0 %</span><span id="left"></span></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="who" id="whoJar"></div>
+      <div class="row"><input id="jarAmt" type="number" inputmode="decimal" placeholder="Montant en €"><button class="btn" id="addJar">Ajouter</button></div>
+    </div>
+    <h2>Historique</h2>
+    <div class="card" id="jarList"></div>
+  </section>
+
+  <!-- PHOTOS -->
+  <section class="tab" id="t-photos">
+    <h2 style="margin-top:0">Nos photos</h2>
+    <div class="card">
+      <div class="who" id="whoPhoto"></div>
+      <div class="row"><input id="photoCap" placeholder="Légende (facultatif)" maxlength="60"></div>
+      <input type="file" id="photoFile" accept="image/*" hidden>
+      <button class="btn" id="addPhoto" style="width:100%">Choisir une photo</button>
+    </div>
+    <div class="grid" id="photoGrid"></div>
+  </section>
+</main>
+
+<nav><div>
+  <button data-tab="home" class="on"><span>🏠</span>Accueil</button>
+  <button data-tab="tasks"><span>✅</span>Tâches</button>
+  <button data-tab="jar"><span>🐷</span>Cagnotte</button>
+  <button data-tab="photos"><span>📷</span>Photos</button>
+</div></nav>
+
+<dialog id="dlg">
+  <h2 style="margin-top:0">Réglages</h2>
+  <label>Ton prénom</label><input id="sA" maxlength="20">
+  <label>Ta ville</label><select id="zA"></select>
+  <label>Son prénom</label><input id="sB" maxlength="20">
+  <label>Sa ville</label><select id="zB"></select>
+  <label>Date des retrouvailles</label><input type="date" id="sDate">
+  <label>Début de votre histoire</label><input type="date" id="sStart">
+  <label>Objectif de la cagnotte</label>
+  <div class="row"><input id="sGoal" placeholder="Ex : billets d’avion"><input id="sTarget" type="number" inputmode="decimal" placeholder="€" style="max-width:100px"></div>
+  <div class="row" style="margin-top:16px"><button class="btn ghost" id="cancel" style="flex:1">Annuler</button><button class="btn" id="save" style="flex:1">Enregistrer</button></div>
+</dialog>
+
+<script>
+const ZONES=[["Amsterdam / Paris / Bruxelles","Europe/Amsterdam"],["Londres","Europe/London"],["Casablanca","Africa/Casablanca"],["Dakar / Abidjan","Africa/Abidjan"],["Kinshasa / Lagos","Africa/Lagos"],["Le Caire / Athènes","Europe/Athens"],["Moscou / Istanbul","Europe/Istanbul"],["Dubaï","Asia/Dubai"],["Montréal / New York","America/New_York"],["Chicago","America/Chicago"],["Los Angeles","America/Los_Angeles"],["São Paulo","America/Sao_Paulo"],["Tokyo","Asia/Tokyo"],["Sydney","Australia/Sydney"]];
+const plusJours=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
+const DEF={a:{name:"Moi",tz:"Europe/Amsterdam"},b:{name:"Elle",tz:"Europe/Amsterdam"},date:plusJours(60),start:plusJours(-100),
+  goal:{name:"Notre prochain voyage",target:1000},tasks:[],jar:[],photos:[]};
+let S;
+try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem("nous")||"{}"))}catch(e){S=structuredClone(DEF)}
+let warn=false;
+function save(){try{localStorage.setItem("nous",JSON.stringify(S))}catch(e){if(!warn){warn=true;alert("Mémoire pleine : supprime quelques photos.")}}}
+const $=id=>document.getElementById(id);
+const col=k=>k==="a"?"var(--a)":k==="b"?"var(--b)":"var(--accent)";
+const nom=k=>k==="a"?S.a.name:k==="b"?S.b.name:"Nous deux";
+const euro=n=>new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR",maximumFractionDigits:2}).format(n);
+let who={task:"both",jar:"a",photo:"a"};
+
+function chips(el,key,opts){
+  el.innerHTML="";
+  opts.forEach(k=>{const b=document.createElement("button");b.className="chip"+(who[key]===k?" on":"");b.textContent=nom(k);
+    b.onclick=()=>{who[key]=k;chips(el,key,opts)};el.appendChild(b)});
+}
+function drawChips(){chips($("whoTask"),"task",["a","b","both"]);chips($("whoJar"),"jar",["a","b"]);chips($("whoPhoto"),"photo",["a","b"])}
+
+/* Accueil */
+function home(){
+  $("titre").textContent=S.a.name+" & "+S.b.name;
+  const d=Math.ceil((new Date(S.date+"T00:00:00")-new Date().setHours(0,0,0,0))/864e5);
+  $("cdNum").textContent=Math.max(d,0);
+  $("cdUnit").textContent=d<=0?"On est ensemble 💛":(d===1?"jour":"jours");
+  $("cdLabel").textContent=d<=0?"Les retrouvailles":"Avant de se retrouver";
+  $("cityA").textContent=S.a.name;$("cityB").textContent=S.b.name;
+  const j=Math.max(0,Math.floor((Date.now()-new Date(S.start+"T00:00:00"))/864e5));
+  $("together").textContent=j.toLocaleString("fr-FR")+" jours";
+  clocks();
+}
+function clocks(){
+  const f=tz=>new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit",timeZone:tz});
+  const day=tz=>new Date().toLocaleDateString("fr-FR",{weekday:"long",timeZone:tz});
+  $("clA").textContent=f(S.a.tz);$("clB").textContent=f(S.b.tz);
+  $("nA").textContent=S.a.name+" · "+day(S.a.tz);$("nB").textContent=S.b.name+" · "+day(S.b.tz);
+}
+setInterval(clocks,20000);
+
+/* Tâches */
+function tasks(){
+  const box=$("taskList");box.innerHTML="";
+  if(!S.tasks.length){box.innerHTML='<div class="empty">Aucune tâche pour le moment.<br>Ajoutez la première ci-dessus.</div>';return}
+  const groups={};S.tasks.forEach((t,i)=>{(groups[t.proj||"Divers"]??=[]).push([t,i])});
+  Object.entries(groups).forEach(([g,items])=>{
+    const done=items.filter(([t])=>t.done).length;
+    const wrap=document.createElement("div");wrap.className="group";
+    wrap.innerHTML='<h3><span></span><span>'+done+'/'+items.length+'</span></h3>';
+    wrap.querySelector("span").textContent=g;
+    const card=document.createElement("div");card.className="card";card.style.padding="4px 16px";
+    items.forEach(([t,i])=>{
+      const r=document.createElement("div");r.className="task"+(t.done?" done":"");
+      r.innerHTML='<button class="check" aria-label="Terminer">'+(t.done?"✓":"")+'</button><span class="tag" title=""></span><span class="tx"></span><button class="del" aria-label="Supprimer">×</button>';
+      r.querySelector(".tag").style.background=col(t.who);r.querySelector(".tag").title=nom(t.who);
+      r.querySelector(".tx").textContent=t.text;
+      r.querySelector(".check").onclick=()=>{S.tasks[i].done=!S.tasks[i].done;save();tasks()};
+      r.querySelector(".del").onclick=()=>{S.tasks.splice(i,1);save();tasks()};
+      card.appendChild(r)});
+    wrap.appendChild(card);box.appendChild(wrap)});
+}
+$("addTask").onclick=()=>{const text=$("taskTxt").value.trim();if(!text)return;
+  S.tasks.unshift({text,proj:$("taskProj").value.trim(),who:who.task,done:false});
+  $("taskTxt").value="";save();tasks()};
+
+/* Cagnotte */
+function jar(){
+  const total=S.jar.reduce((s,e)=>s+e.amt,0),goal=+S.goal.target||1;
+  const p=Math.min(100,Math.round(total/goal*100));
+  $("goalName").textContent=S.goal.name+" · objectif "+euro(goal);
+  $("saved").textContent=euro(total);$("fill").style.width=p+"%";$("pct").textContent=p+" %";
+  $("left").textContent=total>=goal?"Objectif atteint 🎉":"Il reste "+euro(goal-total);
+  const box=$("jarList");box.innerHTML="";
+  if(!S.jar.length){box.innerHTML='<div class="empty">Aucun versement.</div>';return}
+  S.jar.forEach((e,i)=>{const r=document.createElement("div");r.className="entry";
+    r.innerHTML='<span><span class="tag" style="display:inline-block;margin-right:8px"></span><b></b> <small style="color:var(--soft)"></small></span><button class="del">×</button>';
+    r.querySelector(".tag").style.background=col(e.who);r.querySelector("b").textContent=euro(e.amt);
+    r.querySelector("small").textContent=nom(e.who)+" · "+new Date(e.d).toLocaleDateString("fr-FR",{day:"numeric",month:"short"});
+    r.querySelector(".del").onclick=()=>{S.jar.splice(i,1);save();jar()};box.appendChild(r)});
+}
+$("addJar").onclick=()=>{const amt=parseFloat($("jarAmt").value.replace(",","."));if(!(amt>0))return;
+  S.jar.unshift({amt,who:who.jar,d:Date.now()});$("jarAmt").value="";save();jar()};
+
+/* Photos */
+function photos(){
+  const g=$("photoGrid");g.innerHTML="";
+  if(!S.photos.length){g.innerHTML='<div class="empty" style="grid-column:1/3">Pas encore de photo.</div>';return}
+  S.photos.forEach((p,i)=>{const d=document.createElement("div");d.className="ph";
+    d.innerHTML='<img alt=""><span class="ring"></span><button class="del" aria-label="Supprimer">×</button><div class="cap"></div>';
+    d.querySelector("img").src=p.src;d.querySelector(".ring").style.background=col(p.who);
+    d.querySelector(".cap").textContent=p.cap||nom(p.who);
+    d.querySelector(".del").onclick=()=>{S.photos.splice(i,1);save();photos()};g.appendChild(d)});
+}
+$("addPhoto").onclick=()=>$("photoFile").click();
+$("photoFile").onchange=e=>{const f=e.target.files[0];if(!f)return;
+  const img=new Image();img.onload=()=>{const m=640,k=Math.min(1,m/Math.max(img.width,img.height));
+    const c=document.createElement("canvas");c.width=img.width*k;c.height=img.height*k;
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+    S.photos.unshift({src:c.toDataURL("image/jpeg",.7),cap:$("photoCap").value.trim(),who:who.photo});
+    $("photoCap").value="";$("photoFile").value="";save();photos()};
+  img.src=URL.createObjectURL(f)};
+
+/* Navigation */
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.id==="t-"+b.dataset.tab));scrollTo(0,0)});
+
+/* Réglages */
+[ "zA","zB" ].forEach(id=>ZONES.forEach(([n,z])=>{const o=document.createElement("option");o.value=z;o.textContent=n;$(id).appendChild(o)}));
+$("btnReglages").onclick=()=>{$("sA").value=S.a.name;$("sB").value=S.b.name;$("zA").value=S.a.tz;$("zB").value=S.b.tz;
+  $("sDate").value=S.date;$("sStart").value=S.start;$("sGoal").value=S.goal.name;$("sTarget").value=S.goal.target;$("dlg").showModal()};
+$("cancel").onclick=()=>$("dlg").close();
+$("save").onclick=()=>{S.a={name:$("sA").value.trim()||"Moi",tz:$("zA").value};S.b={name:$("sB").value.trim()||"Elle",tz:$("zB").value};
+  S.date=$("sDate").value||S.date;S.start=$("sStart").value||S.start;
+  S.goal={name:$("sGoal").value.trim()||"Notre cagnotte",target:parseFloat($("sTarget").value)||1000};
+  save();$("dlg").close();drawChips();home();jar()};
+
+drawChips();home();tasks();jar();photos();
+</script>
+</body>
+</html>
